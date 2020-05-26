@@ -67,7 +67,7 @@ class Mapper {
             DELETE
             FROM comment
             WHERE id = ?`
-        return this.pool.query(sql, [idComment]).then(([r]: any) => {
+        return this.pool.query(sql, [idComment]).then(() => {
             return Promise.resolve()
         }, () => {
             return Promise.reject('Ошибка запроса')

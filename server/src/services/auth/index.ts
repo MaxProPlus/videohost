@@ -1,4 +1,4 @@
-import UserModel from '../../models/user'
+import UserModel from '../../models/user/model'
 import MyConnection from '../mysql'
 
 class Auth {

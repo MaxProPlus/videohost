@@ -1,5 +1,5 @@
 import {Request, Response} from 'express'
-import CommentModel from '../models/comment'
+import CommentModel from '../models/comment/model'
 import Auth from '../services/auth'
 import {Comment} from '../common/entity/types'
 import MyConnection from '../services/mysql'

@@ -2,7 +2,6 @@ import {Estimate, User, Video} from '../../common/entity/types'
 import {VideoSample} from './types'
 
 class Mapper {
-    private pool: any
     // Начало sql запроса видео
     sqlSelect = `SELECT v.id,
                         v.title,
@@ -17,6 +16,7 @@ class Mapper {
                         p.url_avatar  AS userUrlAvatar
                  FROM video v
                           JOIN user p on p.id = v.id_user`
+    private pool: any
 
     constructor(pool: any) {
         this.pool = pool

@@ -1,5 +1,5 @@
 import {Request, Response} from 'express'
-import VideoModel from '../models/video'
+import VideoModel from '../models/video/model'
 import Auth from '../services/auth'
 import Validator from '../common/validator'
 import {Estimate, Video, VideoUpload} from '../common/entity/types'

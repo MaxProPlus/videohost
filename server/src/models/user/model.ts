@@ -1,6 +1,6 @@
 import Mapper from './mapper'
 import Hash from '../../services/hash'
-import VideoModel from '../video'
+import VideoModel from '../video/model'
 import Uploader from '../../services/uploader'
 import MyConnection from '../../services/mysql'
 import {User, Video} from '../../common/entity/types'

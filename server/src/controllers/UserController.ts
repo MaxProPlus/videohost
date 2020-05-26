@@ -1,5 +1,5 @@
 import {Request, Response} from 'express'
-import UserModel from '../models/user'
+import UserModel from '../models/user/model'
 import Auth from '../services/auth'
 import MyConnection from '../services/mysql'
 import {User, UserPassword} from '../common/entity/types'
@@ -171,7 +171,7 @@ class UserController {
                 errorMessage: 'Ошибка токена',
             })
         }
-        return this.userModel.updateSecure(user).then((r: any) => {
+        return this.userModel.updateSecure(user).then(() => {
             return res.json({
                 status: 'OK',
             })
@@ -201,7 +201,7 @@ class UserController {
                 errorMessage: err,
             })
         }
-        return this.userModel.updatePassword(user).then((r: any) => {
+        return this.userModel.updatePassword(user).then(() => {
             return res.json({
                 status: 'OK',
             })
@@ -237,7 +237,7 @@ class UserController {
                 errorMessage: 'Ошибка токена',
             })
         }
-        return this.userModel.updateAvatar(id, req.files.avatar).then((r: any) => {
+        return this.userModel.updateAvatar(id, req.files.avatar).then(() => {
             return res.json({
                 status: 'OK',
             })

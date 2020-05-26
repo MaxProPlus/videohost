@@ -4,7 +4,7 @@ import morgan from 'morgan'
 import path from 'path'
 import helmet from 'helmet'
 
-import express, {NextFunction, Request, Response} from 'express'
+import express, {Request, Response} from 'express'
 import 'express-async-errors'
 
 import BaseRouter from './routes'
@@ -29,7 +29,7 @@ if (process.env.NODE_ENV === 'production') {
 app.use('/api', BaseRouter)
 
 // Print API errors
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+app.use((err: Error, req: Request, res: Response) => {
     logger.error(err.message, err)
     return res.status(400).json({
         error: err.message,

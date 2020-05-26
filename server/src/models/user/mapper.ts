@@ -11,7 +11,8 @@ class Mapper {
     // Регистрация
     signup(user: User) {
         const sql = `
-            INSERT INTO user (login, sha_pass_hash, email, nickname) VALUES (?, ?, ?, ?)`
+            INSERT INTO user (login, sha_pass_hash, email, nickname)
+            VALUES (?, ?, ?, ?)`
         return this.pool.query(sql, [user.login, user.password, user.email, user.login]).then(([r]: any) => {
             return Promise.resolve(r.insertId)
         }, () => {
@@ -39,7 +40,7 @@ class Mapper {
     // Сохранить токен
     saveToken(data: Token) {
         const sql = 'INSERT INTO token(id_user, text) VALUES(?, ?)'
-        return this.pool.query(sql, [data.id, data.token]).then(([r]: any) => {
+        return this.pool.query(sql, [data.id, data.token]).then(() => {
             return Promise.resolve(data.token)
         }, () => {
             return Promise.reject('Ошибка запроса')
@@ -124,7 +125,7 @@ class Mapper {
                 return Promise.reject('Не найден пользователь')
             }
             return Promise.resolve(r[0])
-        }).catch((err: Error) => {
+        }, () => {
             return Promise.reject('Ошибка запроса')
         })
     }
