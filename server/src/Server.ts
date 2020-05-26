@@ -1,10 +1,9 @@
 import cookieParser from 'cookie-parser'
 import fileUpload from 'express-fileupload'
-import morgan from 'morgan'
 import path from 'path'
 import helmet from 'helmet'
 
-import express, {Request, Response} from 'express'
+import express, {NextFunction, Request, Response} from 'express'
 import 'express-async-errors'
 
 import BaseRouter from './routes'
@@ -18,10 +17,6 @@ app.use(express.urlencoded({extended: true}))
 app.use(cookieParser())
 app.use(fileUpload())
 
-if (process.env.NODE_ENV === 'development') {
-    app.use(morgan('dev'))
-}
-
 if (process.env.NODE_ENV === 'production') {
     app.use(helmet())
 }
@@ -29,7 +24,7 @@ if (process.env.NODE_ENV === 'production') {
 app.use('/api', BaseRouter)
 
 // Print API errors
-app.use((err: Error, req: Request, res: Response) => {
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     logger.error(err.message, err)
     return res.status(400).json({
         error: err.message,
