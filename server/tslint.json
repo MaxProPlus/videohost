@@ -1,0 +1,21 @@
+{
+  "extends": "tslint:recommended",
+  "rules": {
+    "max-classes-per-file": true,
+    "one-variable-per-declaration": false,
+    "no-console": false,
+    "no-trailing-whitespace": false,
+    "member-ordering": false,
+    "object-literal-sort-keys": false,
+    "ordered-imports": false,
+    "quotemark": [true, "single"],
+    "semicolon": [true, "never"],
+    "radix": false,
+    "no-empty": false
+  },
+  "linterOptions": {
+    "exclude": [
+      "./node_modules/**"
+    ]
+  }
+}

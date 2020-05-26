@@ -1,0 +1,20 @@
+$color: #fff;
+$background: #343a40;
+$background-hover: #23272b;
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: .375rem .75rem;
+  color: $color;
+  font-size: 1rem;
+  word-wrap: normal;
+  background-color: $background;
+  border: none;
+  outline: none;
+  border-radius: .25rem;
+
+  &:focus, &:hover {
+    background-color: $background-hover;
+  }
+}

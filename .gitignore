@@ -1,0 +1,24 @@
+# dependencies
+/client/node_modules
+/server/node_modules
+
+# ide
+/client/.idea
+/server/.idea
+/server/src/common/.idea
+
+# env
+/server/dev.env
+/server/prod.env
+
+# production
+/client/build
+/server/dist
+/server/logs
+/server/upload/avatar/*
+!/server/upload/avatar/standart.png
+/server/upload/preview/*
+!/server/upload/preview/standart.png
+/server/upload/video/*
+
+

@@ -1,0 +1,24 @@
+.dropdown {
+  position: absolute;
+  z-index: 1;
+  top: 2.5rem;
+  width: 9rem;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, .08);
+  border: 1px solid rgba(34, 36, 38, .15);
+
+  > .item {
+    padding: .75rem 1rem;
+
+    &:hover {
+      background: rgba(0, 0, 0, .05);
+    }
+  }
+}
+
+@media screen and (max-width: 66.5rem) {
+  .dropdown {
+    right: 0.5rem;
+  }
+}

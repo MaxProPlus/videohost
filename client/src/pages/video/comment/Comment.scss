@@ -1,0 +1,28 @@
+.comment-item {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+
+  > .comment-block {
+    flex-grow: 1;
+    word-break: break-all;
+  }
+
+  .avatar_img {
+    flex-shrink: 0;
+    margin-right: .5rem;
+  }
+
+  .comment-author {
+    font-size: .8rem;
+    font-weight: bold;
+    line-height: 1.5;
+  }
+
+  > .comment-remove {
+    cursor: pointer;
+    width: .5rem;
+    height: .5rem;
+    min-width: auto;
+  }
+}

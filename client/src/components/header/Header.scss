@@ -1,0 +1,78 @@
+.header {
+  background-color: #373940;
+  color: #fff;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  > .header-inner {
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    > .logo {
+      font-size: 2rem;
+      padding-right: .5rem;
+    }
+
+    .search-form {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+
+      > input {
+        width: auto;
+        flex-grow: 1;
+        max-width: 640px;
+        margin-right: .5rem;
+        padding: 0 .5rem;
+        font-weight: 400;
+        border: 0;
+        line-height: 1.5;
+        color: #495057;
+      }
+
+      > button {
+        background-color: transparent;
+        border: 1px solid #fff;
+
+        &:hover, &:focus {
+          background-color: #23272b;
+        }
+      }
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      padding-left: .5rem;
+      position: relative;
+    }
+  }
+}
+
+@media screen and (max-width: 66.5rem) {
+  .header {
+    > .header-inner {
+      width: 98%;
+
+      .profile {
+        > .nickname {
+          display: none;
+        }
+      }
+
+      .search-form {
+        > input {
+          width: 80%;
+        }
+
+        > button {
+          padding: .375rem .5rem;
+        }
+      }
+    }
+  }
+}
+

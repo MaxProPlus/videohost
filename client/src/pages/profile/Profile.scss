@@ -1,0 +1,34 @@
+.profile-page {
+
+  > .header-avatar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: .75rem;
+
+    > .profile {
+      cursor: auto;
+      overflow: hidden;
+      padding-right: 1rem;
+
+      > .avatar_img {
+        width: 3rem;
+        height: 3rem;
+      }
+    }
+  }
+
+  .video-author {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-bottom: .5rem;
+  }
+
+  .avatar {
+    width: 3rem;
+    height: 3rem;
+    border: 1px solid grey;
+    margin-right: .5rem;
+  }
+}

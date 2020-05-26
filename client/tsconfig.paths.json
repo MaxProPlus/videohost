@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "entity/*": [
+        "../common/entity/*"
+      ]
+    }
+  }
+}

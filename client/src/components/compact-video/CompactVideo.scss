@@ -1,0 +1,36 @@
+.compactvideo {
+  > a {
+    display: flex;
+    margin-bottom: 8px;
+    cursor: pointer;
+    overflow: hidden;
+
+    .compactvideo-info {
+      > .compactvideo-nickname, > .compactvideo-rating {
+        font-size: .8rem;
+      }
+
+      > .compactvideo-title {
+        font-weight: bold;
+        line-height: 1.5rem;
+        max-height: 3rem;
+        margin-bottom: 4px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    > .compactvideo-img {
+      margin-right: 8px;
+      overflow: hidden;
+      width: 10rem;
+      height: 5.625rem;
+      flex-shrink: 0;
+
+      > img {
+        min-width: 100%;
+        height: 100%;
+      }
+    }
+  }
+}

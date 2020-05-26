@@ -1,0 +1,11 @@
+.video-upload {
+  > .remove {
+    button {
+      background-color: #dc3545;
+
+      &:hover, &:focus {
+        background-color: #c82333;
+      }
+    }
+  }
+}

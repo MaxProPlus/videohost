@@ -1,0 +1,13 @@
+.comment-form {
+  display: flex;
+
+  > .avatar_img {
+    margin-right: .5rem;
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+
+  > .form-input {
+    margin-right: .5rem;
+  }
+}
