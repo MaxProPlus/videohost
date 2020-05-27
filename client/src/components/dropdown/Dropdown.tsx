@@ -59,8 +59,8 @@ class Dropdown extends Component<{}, stateTypes> {
 
     renderMenu = () => {
         return (<div className="dropdown">
-                <div className="item"><Link to={"/profile/" + this.context.user.id}>Мой профиль</Link></div>
-                <div className="item"><Link to={"/setting"}>Настройки</Link></div>
+                <Link className="item" to={"/profile/" + this.context.user.id}>Мой профиль</Link>
+                <Link className="item" to={"/setting"}>Настройки</Link>
                 <div className="item" onClick={this.logout}>Выйти</div>
             </div>
         )
