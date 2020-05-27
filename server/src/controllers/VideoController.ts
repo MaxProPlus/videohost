@@ -53,7 +53,7 @@ class VideoController {
         } catch (err) {
             return res.json({
                 status: 'INVALID_AUTH',
-                errorMessage: 'Неверный токен',
+                errorMessage: 'Ошибка авторизации',
             })
         }
         return this.videoModel.create(v).then((r: any) => {
@@ -201,7 +201,7 @@ class VideoController {
         } catch (err) {
             return res.json({
                 status: 'INVALID_AUTH',
-                errorMessage: 'Ошибка токена',
+                errorMessage: 'Ошибка авторизации',
             })
         }
         return this.videoModel.update(v).then((r: any) => {
@@ -232,7 +232,7 @@ class VideoController {
         } catch (err) {
             return res.json({
                 status: 'INVALID_AUTH',
-                errorMessage: 'Неверный токен',
+                errorMessage: 'Ошибка авторизации',
             })
         }
         return this.videoModel.remove(v).then((r: any) => {
@@ -255,7 +255,7 @@ class VideoController {
         if (e && (e.star < 0 || e.star > 2)) {
             return res.json({
                 status: 'INVALID_DATA',
-                errorMessage: 'Ошибка данных',
+                errorMessage: 'Ошибка входных параметров',
             })
         }
         try {
@@ -263,7 +263,7 @@ class VideoController {
         } catch (err) {
             return res.json({
                 status: 'INVALID_AUTH',
-                errorMessage: 'Ошибка токена',
+                errorMessage: 'Ошибка авторизации',
             })
         }
         return this.videoModel.setEstimate(e).then((r: any) => {

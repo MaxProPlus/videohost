@@ -30,7 +30,7 @@ class CommentController {
         } catch (err) {
             return res.json({
                 status: 'INVALID_AUTH',
-                errorMessage: 'Неверный токен',
+                errorMessage: 'Ошибка авторизации',
             })
         }
         return this.commentModel.create(c).then((r: any) => {
@@ -84,7 +84,7 @@ class CommentController {
         } catch (err) {
             return res.json({
                 status: 'INVALID_AUTH',
-                errorMessage: 'Неверный токен',
+                errorMessage: 'Ошибка авторизации',
             })
         }
         return this.commentModel.remove(comment).then((r: any) => {

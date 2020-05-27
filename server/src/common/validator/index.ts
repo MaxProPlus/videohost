@@ -106,7 +106,7 @@ class Validator {
                 break
             default:
                 ok = false
-                err += 'Не поддерживаемый тип видео. Поддерживаемые форматы: mp4, ogg.\n'
+                err += 'Не поддерживаемый тип видео. Поддерживаемые форматы: mp4, ogv.\n'
         }
         return {ok, err}
     }

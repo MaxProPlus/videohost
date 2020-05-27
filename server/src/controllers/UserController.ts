@@ -94,7 +94,7 @@ class UserController {
         } catch (err) {
             return res.json({
                 status: 'INVALID_AUTH',
-                errorMessage: 'Ошибка токена',
+                errorMessage: 'Ошибка авторизации',
             })
         }
         return this.userModel.getGeneral(id).then((r: any) => {
@@ -121,7 +121,7 @@ class UserController {
             res.clearCookie('token')
             return res.json({
                 status: 'INVALID_AUTH',
-                errorMessage: 'Ошибка токена',
+                errorMessage: 'Ошибка авторизации',
             })
         })
     }
@@ -134,7 +134,7 @@ class UserController {
         } catch (err) {
             return res.json({
                 status: 'INVALID_AUTH',
-                errorMessage: 'Ошибка токена',
+                errorMessage: 'Ошибка авторизации',
             })
         }
         const {ok, err} = this.validator.validateGeneral(user)
@@ -172,7 +172,7 @@ class UserController {
         } catch (e) {
             return res.json({
                 status: 'INVALID_AUTH',
-                errorMessage: 'Ошибка токена',
+                errorMessage: 'Ошибка авторизации',
             })
         }
         return this.userModel.updateSecure(user).then(() => {
@@ -195,7 +195,7 @@ class UserController {
         } catch (err) {
             return res.json({
                 status: 'INVALID_AUTH',
-                errorMessage: 'Ошибка токена',
+                errorMessage: 'Ошибка авторизации',
             })
         }
         const {ok, err} = this.validator.validatePassword(user)
@@ -238,7 +238,7 @@ class UserController {
         } catch (err) {
             return res.json({
                 status: 'INVALID_AUTH',
-                errorMessage: 'Ошибка токена',
+                errorMessage: 'Ошибка авторизации',
             })
         }
         return this.userModel.updateAvatar(id, req.files.avatar).then(() => {
