@@ -4,41 +4,41 @@ import Auth from '../services/auth'
 import Validator from '../common/validator'
 import {Estimate, Video, VideoUpload} from '../common/entity/types'
 import {UploadedFile} from 'express-fileupload'
-import MyConnection from '../services/mysql'
+import connection from '../services/mysql'
 
 class VideoController {
     private videoModel: VideoModel
     private auth: Auth
     private validator = new Validator()
 
-    constructor(connection: MyConnection) {
+    constructor() {
         this.videoModel = new VideoModel(connection)
         this.auth = new Auth(connection)
     }
 
     // Загрузка видео
-    async create(req: Request, res: Response) {
+    create = async (req: Request, res: Response) => {
         if (!req.files || Object.keys(req.files).length < 1 || !req.files.file_video) {
             return res.json({
                 status: 'INVALID_FILE',
                 errorMessage: 'Не прикрепленно видео',
             })
         }
-        const video: VideoUpload = req.body
-        video.fileVideo = req.files.file_video as UploadedFile
-        video.filePreview = req.files.file_preview as UploadedFile
+        const v: VideoUpload = req.body
+        v.fileVideo = req.files.file_video as UploadedFile
+        v.filePreview = req.files.file_preview as UploadedFile
         let status = true, errorMessage = ''
 
-        let check = this.validator.validateVideoInfo(video)
+        let check = this.validator.validateVideoInfo(v)
         status = check.ok && status
         errorMessage += check.err
 
-        check = this.validator.validateVideoFile(video.fileVideo)
+        check = this.validator.validateVideoFile(v.fileVideo)
         status = check.ok && status
         errorMessage += check.err
 
-        if (video.filePreview) {
-            check = this.validator.validateImg(video.filePreview)
+        if (v.filePreview) {
+            check = this.validator.validateImg(v.filePreview)
             status = check.ok && status
             errorMessage += check.err
         }
@@ -49,28 +49,28 @@ class VideoController {
             })
         }
         try {
-            video.idUser = await this.auth.checkAuth(req.cookies.token)
+            v.idUser = await this.auth.checkAuth(req.cookies.token)
         } catch (err) {
             return res.json({
                 status: 'INVALID_AUTH',
                 errorMessage: 'Неверный токен',
             })
         }
-        return this.videoModel.create(video).then((r: any) => {
+        return this.videoModel.create(v).then((r: any) => {
             return res.json({
                 status: 'OK',
                 results: [r],
             })
-        }, () => {
+        }, (err) => {
             return res.json({
                 status: 'ERROR',
-                errorMessage: 'Ошибка',
+                errorMessage: err,
             })
         })
     }
 
     // Получить видео по id
-    async get(req: Request, res: Response) {
+    get = async (req: Request, res: Response) => {
         const id = parseInt(req.params.id)
         if (isNaN(id)) {
             return res.json({
@@ -78,6 +78,7 @@ class VideoController {
                 errorMessage: 'Ошибка парсинга id',
             })
         }
+
         let idUser = 0
         try {
             idUser = await this.auth.checkAuth(req.cookies.token)
@@ -88,61 +89,61 @@ class VideoController {
                 status: 'OK',
                 results: [r],
             })
-        }, () => {
+        }, (err) => {
             return res.json({
                 status: 'ERROR',
-                errorMessage: 'Ошибка',
+                errorMessage: err,
             })
         })
     }
 
     // Получить популярные видео
-    getRating(req: Request, res: Response) {
+    getRating = (req: Request, res: Response) => {
         return this.videoModel.getRating().then((r: any) => {
             return res.json({
                 status: 'OK',
                 results: r,
             })
-        }, () => {
+        }, (err) => {
             return res.json({
                 status: 'ERROR',
-                errorMessage: 'Ошибка',
+                errorMessage: err,
             })
         })
     }
 
     // Получить по лайкам видео
-    getLiking(req: Request, res: Response) {
+    getLiking = (req: Request, res: Response) => {
         return this.videoModel.getLiking().then((r: any) => {
             return res.json({
                 status: 'OK',
                 results: r,
             })
-        }, () => {
+        }, (err) => {
             return res.json({
                 status: 'ERROR',
-                errorMessage: 'Ошибка',
+                errorMessage: err,
             })
         })
     }
 
     // Получить последние загруженные видео
-    getRecently(req: Request, res: Response) {
+    getRecently = (req: Request, res: Response) => {
         return this.videoModel.getRecently().then((r: any) => {
             return res.json({
                 status: 'OK',
                 results: r,
             })
-        }, () => {
+        }, (err) => {
             return res.json({
                 status: 'ERROR',
-                errorMessage: 'Ошибка',
+                errorMessage: err,
             })
         })
     }
 
     // Поиск видео по запросу
-    search(req: Request, res: Response) {
+    search = (req: Request, res: Response) => {
         const query = req.query.query as string
         if (!query) {
             return res.json({
@@ -155,17 +156,17 @@ class VideoController {
                 status: 'OK',
                 results: r,
             })
-        }, () => {
+        }, (err) => {
             return res.json({
                 status: 'ERROR',
-                errorMessage: 'Ошибка',
+                errorMessage: err,
             })
         })
 
     }
 
     // Редактирование видео
-    async update(req: Request, res: Response) {
+    update = async (req: Request, res: Response) => {
         const id = parseInt(req.params.id)
         if (isNaN(id)) {
             return res.json({
@@ -173,19 +174,19 @@ class VideoController {
                 errorMessage: 'Ошибка парсинга id',
             })
         }
-        const video: VideoUpload = req.body
-        video.id = id
-        delete video.filePreview
+        const v: VideoUpload = req.body
+        v.id = id
+        delete v.filePreview
 
         let status = true, errorMessage = '', check
         if (req.files) {
             check = this.validator.validateImg(req.files.filePreview as UploadedFile)
             status = status && check.ok
             errorMessage += check.err
-            video.filePreview = req.files.filePreview as UploadedFile
+            v.filePreview = req.files.filePreview as UploadedFile
         }
 
-        check = this.validator.validateVideoInfo(video)
+        check = this.validator.validateVideoInfo(v)
         status = status && check.ok
         errorMessage += check.err
 
@@ -196,83 +197,84 @@ class VideoController {
             })
         }
         try {
-            video.idUser = await this.auth.checkAuth(req.cookies.token)
+            v.idUser = await this.auth.checkAuth(req.cookies.token)
         } catch (err) {
             return res.json({
                 status: 'INVALID_AUTH',
                 errorMessage: 'Ошибка токена',
             })
         }
-        return this.videoModel.update(video).then((r: any) => {
+        return this.videoModel.update(v).then((r: any) => {
             return res.json({
                 status: 'OK',
                 results: [r],
             })
-        }, () => {
+        }, (err) => {
             return res.json({
                 status: 'ERROR',
-                errorMessage: 'Ошибка',
+                errorMessage: err,
             })
         })
     }
 
     // Удаление видео
-    async remove(req: Request, res: Response) {
-        const video = new Video()
-        video.id = parseInt(req.params.id)
-        if (isNaN(video.id)) {
+    remove = async (req: Request, res: Response) => {
+        const v = new Video()
+        v.id = parseInt(req.params.id)
+        if (isNaN(v.id)) {
             return res.json({
                 status: 'INVALID_PARSE',
                 errorMessage: 'Ошибка парсинга id',
             })
         }
         try {
-            video.idUser = await this.auth.checkAuth(req.cookies.token)
+            v.idUser = await this.auth.checkAuth(req.cookies.token)
         } catch (err) {
             return res.json({
                 status: 'INVALID_AUTH',
                 errorMessage: 'Неверный токен',
             })
         }
-        return this.videoModel.remove(video).then((r: any) => {
+        return this.videoModel.remove(v).then((r: any) => {
             return res.json({
                 status: 'OK',
                 results: [r],
             })
-        }, () => {
+        }, (err) => {
             return res.json({
                 status: 'ERROR',
-                errorMessage: 'Ошибка',
+                errorMessage: err,
             })
         })
     }
 
+
     // Установка просмотров, лайкой, дизлайков
-    async setEstimate(req: Request, res: Response) {
-        const estimate: Estimate = req.body
-        if (estimate && (estimate.star < 0 || estimate.star > 2)) {
+    setEstimate = async (req: Request, res: Response) => {
+        const e: Estimate = req.body
+        if (e && (e.star < 0 || e.star > 2)) {
             return res.json({
                 status: 'INVALID_DATA',
                 errorMessage: 'Ошибка данных',
             })
         }
         try {
-            estimate.idUser = await this.auth.checkAuth(req.cookies.token)
+            e.idUser = await this.auth.checkAuth(req.cookies.token)
         } catch (err) {
             return res.json({
                 status: 'INVALID_AUTH',
                 errorMessage: 'Ошибка токена',
             })
         }
-        return this.videoModel.setEstimate(estimate).then((r: any) => {
+        return this.videoModel.setEstimate(e).then((r: any) => {
             return res.json({
                 status: 'OK',
                 results: [r],
             })
-        }, () => {
+        }, (err) => {
             return res.json({
                 status: 'ERROR',
-                errorMessage: 'Ошибка',
+                errorMessage: err,
             })
         })
     }

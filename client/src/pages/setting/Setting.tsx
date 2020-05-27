@@ -6,6 +6,7 @@ import history from "../../utils/history"
 import Validator from "../../../../server/src/common/validator"
 import {User, UserPassword} from "../../../../server/src/common/entity/types"
 import InputField from "../../components/form/input-field/InputField";
+import AlertDanger from "../../components/alert-danger/AlertDanger";
 
 type IState = {
     email: string,
@@ -53,9 +54,11 @@ class Setting extends React.Component<{}, IState> {
 
     componentDidMount() {
         this.userApi.getGeneral().then(r => {
-            this.setState(r)
-        }, () => {
-            history.push('/login')
+            if (r.status !== 'OK') {
+                history.push('/login')
+                return
+            }
+            this.setState(r.results[0])
         }).finally(() => {
             this.setState({
                 isLoaded: true,
@@ -132,13 +135,12 @@ class Setting extends React.Component<{}, IState> {
             errorGeneral: '',
         })
         this.userApi.updateGeneral(user).then(r => {
-            if (r.status !== 'OK') {
-                this.setState({
-                    errorGeneral: r.errorMessage,
-                })
-                return
-            }
+            this.setState(r)
             this.context.updateLogin()
+        }, (err) => {
+            this.setState({
+                errorGeneral: err,
+            })
         }).finally(() => {
             this.setState({
                 isLoaded: true,
@@ -215,7 +217,7 @@ class Setting extends React.Component<{}, IState> {
                 <div className="page-setting">
                     <form className="form-sign" onSubmit={this.handleSubmitProfileAvatar}>
                         <div className="title">Загрузка аватара</div>
-                        {this.state.errorAvatar && <div className="alert alert-danger">{this.state.errorAvatar}</div>}
+                        {this.state.errorAvatar && <AlertDanger>{this.state.errorAvatar}</AlertDanger>}
                         <div className="form-group">
                             <input className="fileInput" type="file" onChange={this.handleImageChange}/>
                         </div>
@@ -225,8 +227,7 @@ class Setting extends React.Component<{}, IState> {
                     </form>
                     <form className="form-sign" onSubmit={this.handleSubmitProfile}>
                         <div className="title">Общие настройки</div>
-                        {this.state.errorGeneral &&
-                        <div className="alert alert-danger">{this.state.errorGeneral}</div>}
+                        {this.state.errorGeneral && <AlertDanger>{this.state.errorGeneral}</AlertDanger>}
                         <InputField label="Никнейм" type="text" value={this.state.nickname}
                                     id="nickname" onChange={this.handleChange}/>
                         <InputField label="Имя" type="text" value={this.state.firstname}
@@ -239,7 +240,7 @@ class Setting extends React.Component<{}, IState> {
                     </form>
                     <form className="form-sign" onSubmit={this.handleSubmitSecure}>
                         <div className="title">Настройки безопасности</div>
-                        {this.state.errorSecure && <div className="alert alert-danger">{this.state.errorSecure}</div>}
+                        {this.state.errorSecure && <AlertDanger>{this.state.errorSecure}</AlertDanger>}
                         <InputField label="E-mail" type="email" value={this.state.email}
                                     id="email" onChange={this.handleChange}/>
                         <InputField label="Login" type="text" value={this.state.login}
@@ -252,8 +253,7 @@ class Setting extends React.Component<{}, IState> {
                     </form>
                     <form className="form-sign" onSubmit={this.handleSubmitUserPassword}>
                         <div className="title">Изменение пароля</div>
-                        {this.state.errorPassword &&
-                        <div className="alert alert-danger">{this.state.errorPassword}</div>}
+                        {this.state.errorPassword && <AlertDanger>{this.state.errorPassword}</AlertDanger>}
                         <InputField label="Старый пароль" type="password" value={this.state.passwordOld}
                                     id="passwordOld" onChange={this.handleChange}/>
                         <InputField label="Новый пароль" type="password" value={this.state.password}

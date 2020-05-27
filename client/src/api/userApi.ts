@@ -9,7 +9,11 @@ class UserApi {
             headers: {
                 'Content-Type': 'application/json',
             }
-        }).then(r => r.json())
+        }).then(r => r.json()).then(r => {
+            if (r.status !== 'OK')
+                return Promise.reject(r.errorMessage)
+            return r.results[0]
+        })
     }
 
     updateAvatar(avatar: FormData) {

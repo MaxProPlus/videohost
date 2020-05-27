@@ -9,7 +9,7 @@ const db = {
     password: process.env.DB_PASSWORD,
 }
 
-export default class MyConnection {
+class MyConnection {
     private pool = mysql.createPool(db)
 
     // Получить промис пул соединений
@@ -17,3 +17,7 @@ export default class MyConnection {
         return this.pool.promise()
     }
 }
+
+const connection = new MyConnection()
+
+export default connection

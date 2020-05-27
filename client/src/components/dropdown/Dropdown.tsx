@@ -4,6 +4,7 @@ import UserApi from "../../api/userApi"
 import history from "../../utils/history"
 import './Dropdown.scss'
 import Profile from "../profile/Profile"
+import {Link} from "react-router-dom";
 
 type stateTypes = {
     visible: boolean
@@ -58,14 +59,8 @@ class Dropdown extends Component<{}, stateTypes> {
 
     renderMenu = () => {
         return (<div className="dropdown">
-                <div className="item" onClick={() => {
-                    history.push("/profile/" + this.context.user.id)
-                }}>Мой профиль
-                </div>
-                <div className="item" onClick={() => {
-                    history.push("/setting")
-                }}>Настройки
-                </div>
+                <div className="item"><Link to={"/profile/" + this.context.user.id}>Мой профиль</Link></div>
+                <div className="item"><Link to={"/setting"}>Настройки</Link></div>
                 <div className="item" onClick={this.logout}>Выйти</div>
             </div>
         )

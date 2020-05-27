@@ -2,6 +2,7 @@
   position: absolute;
   z-index: 1;
   top: 2.5rem;
+  left: -1.5rem;
   width: 9rem;
   color: #000;
   background-color: #fff;
@@ -19,6 +20,7 @@
 
 @media screen and (max-width: 66.5rem) {
   .dropdown {
+    left: auto;
     right: 0.5rem;
   }
 }

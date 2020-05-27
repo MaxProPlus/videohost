@@ -53,7 +53,6 @@ class ProfilePage extends React.Component<any, stateTypes> {
         this.userApi.getUser(id).then(r => {
             if (r.status !== 'OK') {
                 history.push('/')
-                console.error(r.errorMessage)
                 return
             }
             this.setState({
@@ -86,7 +85,7 @@ class ProfilePage extends React.Component<any, stateTypes> {
         return (
             <div className="profile-page">
                 {!this.state.isLoaded && <Spinner/>}
-                <div className="header-avatar">
+                <div className="fsb header-avatar">
                     <Profile
                         {...this.state.user}
                         onClick={() => {

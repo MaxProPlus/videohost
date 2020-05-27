@@ -2,13 +2,9 @@
   background-color: #373940;
   color: #fff;
   width: 100%;
-  display: flex;
-  justify-content: center;
 
   > .header-inner {
     width: 90%;
-    display: flex;
-    justify-content: space-between;
     align-items: center;
 
     > .logo {
@@ -18,8 +14,6 @@
 
     .search-form {
       flex-grow: 1;
-      display: flex;
-      justify-content: center;
 
       > input {
         width: auto;

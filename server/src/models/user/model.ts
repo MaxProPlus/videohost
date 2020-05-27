@@ -2,8 +2,7 @@ import Mapper from './mapper'
 import Hash from '../../services/hash'
 import VideoModel from '../video/model'
 import Uploader from '../../services/uploader'
-import MyConnection from '../../services/mysql'
-import {User, Video} from '../../common/entity/types'
+import {User} from '../../common/entity/types'
 
 class UserModel {
     private mapper: Mapper
@@ -11,34 +10,25 @@ class UserModel {
     private hash = new Hash()
     private uploader = new Uploader()
 
-    constructor(connection: MyConnection) {
+    constructor(connection: any) {
         this.mapper = new Mapper(connection.getPoolPromise())
         this.videoModel = new VideoModel(connection)
     }
 
     // Регистрация
-    async signup(user: User) {
+    signup = async (user: User) => {
         user.password = this.hash.getHash(user.password)
-        try {
-            const id = await this.mapper.signup(user)
-            return this.mapper.saveToken({
-                id,
-                token: this.hash.getToken(),
-            })
-        } catch (err) {
-            return Promise.reject(err)
-        }
+        const id = await this.mapper.signup(user)
+        return this.mapper.saveToken({
+            id,
+            token: this.hash.getToken(),
+        })
     }
 
     // Авторизация
-    async login(user: User) {
+    login = async (user: User) => {
         user.password = this.hash.getHash(user.password)
-        let id
-        try {
-            id = await this.mapper.login(user)
-        } catch (err) {
-            return Promise.reject(err)
-        }
+        const id = await this.mapper.login(user)
         return this.mapper.saveToken({
             id,
             token: this.hash.getToken(),
@@ -46,13 +36,8 @@ class UserModel {
     }
 
     // Получить контекст
-    async getContext(data: string) {
-        let context = new User()
-        try {
-            context = await this.mapper.getContext(data)
-        } catch (err) {
-            return Promise.reject(err)
-        }
+    getContext = async (data: string) => {
+        const context: User = await this.mapper.getContext(data)
         if (context.urlAvatar === null) {
             context.urlAvatar = '/avatar/standart.png'
         }
@@ -60,28 +45,28 @@ class UserModel {
     }
 
     // Проверка авторизации по токену
-    checkAuthByToken(data: string) {
+    checkAuthByToken = (data: string) => {
         return this.mapper.getIdByToken(data)
     }
 
     // Проверка авторизации по токену и паролю
-    checkAuthByTokenWithPassword(token: string, pass: string) {
+    checkAuthByTokenWithPassword = (token: string, pass: string) => {
         pass = this.hash.getHash(pass)
         return this.mapper.getIdByTokenWithPassword(token, pass)
     }
 
     // Выход
-    logout(token: string) {
+    logout = (token: string) => {
         return this.mapper.logout(token)
     }
 
     // Получить пользователя по id
-    async getById(id: number) {
+    getById = (id: number) => {
         const promises = []
         promises.push(this.mapper.getUserById(id))
         promises.push(this.videoModel.getVideoByUserId(id))
-        return Promise.all(promises).then((res: any) => {
-            const [user, videos]: [User, Video] = res
+        return Promise.all(promises).then((value: any) => {
+            const [user, videos] = value
             if (user.urlAvatar === null) {
                 user.urlAvatar = '/avatar/standart.png'
             }
@@ -93,35 +78,32 @@ class UserModel {
     }
 
     // Получить информацию о пользователе
-    async getGeneral(idProfile: number) {
+    getGeneral = async (idProfile: number) => {
         return this.mapper.getUserInfoById(idProfile)
     }
 
     // Редактирование основной информации
-    updateGeneral(user: any) {
-        return this.mapper.updateGeneral(user)
+    updateGeneral = async (user: any) => {
+        await this.mapper.updateGeneral(user)
+        return this.mapper.getUserInfoById(user.id)
     }
 
     // Редактирование настроек безопасноти
-    updateSecure(user: any) {
+    updateSecure = async (user: User) => {
         return this.mapper.updateSecure(user)
     }
 
     // Редактирование пароля
-    updatePassword(user: any) {
+    updatePassword = (user: any) => {
         user.password = this.hash.getHash(user.password)
         return this.mapper.updatePassword(user)
     }
 
     // Загрузка аватарки
-    async updateAvatar(id: number, avatar: any) {
-        try {
-            const oldAvatarPath = (await this.mapper.getUserById(id)).urlAvatar
-            if (oldAvatarPath) {
-                this.uploader.remove(oldAvatarPath)
-            }
-        } catch (err) {
-            return Promise.reject(err)
+    updateAvatar = async (id: number, avatar: any) => {
+        const oldAvatarPath = (await this.mapper.getUserById(id)).urlAvatar
+        if (oldAvatarPath) {
+            this.uploader.remove(oldAvatarPath)
         }
         const infoAvatar = this.uploader.getInfo(avatar, 'avatar')
         avatar.mv(infoAvatar.path)

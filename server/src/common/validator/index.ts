@@ -57,9 +57,23 @@ class Validator {
         let ok = true
         let err = ''
         user.nickname = this.trim(user.nickname)
+        user.firstname = this.trim(user.firstname)
+        user.secondname = this.trim(user.secondname)
         if (user.nickname === '') {
             ok = false
             err += 'Никнейм не может быть пустым.\n'
+        }
+        if (user.nickname.length > 32) {
+            ok = false
+            err += 'Никнейм не должен превышать 32 символов.\n'
+        }
+        if (user.firstname.length > 32) {
+            ok = false
+            err += 'Имя не должно превышать 32 символов.\n'
+        }
+        if (user.secondname.length > 32) {
+            ok = false
+            err += 'Фимилия не должна превышать 32 символов.\n'
         }
         return {ok, err}
     }

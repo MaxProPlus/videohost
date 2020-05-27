@@ -26,32 +26,23 @@ class Header extends Component<{}, stateTypes> {
         this.setState({
             query: e.target.value
         })
-    };
+    }
 
     handleSubmit = (e: any) => {
         e.preventDefault()
         if (!this.state.query) return
         history.push('/search?query=' + this.state.query)
-    };
-
-    renderLogin() {
-        return (<div className="profile"><Link to="/login">Вход</Link></div>)
-    }
-
-    renderProfile() {
-        return (
-            <Dropdown/>
-        )
     }
 
     render() {
-        const $profile = (this.context.user.id === 0) ? this.renderLogin() : this.renderProfile()
+        const $profile = (this.context.user.id === 0) ? (
+            <div className="profile"><Link to="/login">Вход</Link></div>) : (<Dropdown/>)
         return (
-            <header className="header">
-                <div className="header-inner">
+            <header className="fc header">
+                <div className="fsb header-inner">
                     <div className="logo"><Link to="/">Vh</Link></div>
-                    <form action="" method="GET" className="search-form" onSubmit={this.handleSubmit}>
-                        <Input type="search" className="search_input" placeholder="Поиск" value={this.state.query}
+                    <form action="" method="GET" className="fc search-form" onSubmit={this.handleSubmit}>
+                        <Input type="search" placeholder="Поиск" value={this.state.query}
                                onChange={this.handleChange}/>
                         <Button><img src={searchIcon} alt=""/></Button>
                     </form>

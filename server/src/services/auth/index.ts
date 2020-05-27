@@ -1,10 +1,9 @@
 import UserModel from '../../models/user/model'
-import MyConnection from '../mysql'
 
 class Auth {
     private userModel: UserModel
 
-    constructor(connection: MyConnection) {
+    constructor(connection: any) {
         this.userModel = new UserModel(connection)
     }
 

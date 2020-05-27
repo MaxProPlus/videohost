@@ -27,6 +27,7 @@
     "@types/helmet": "0.0.45",
     "@types/jasmine": "^3.5.10",
     "@types/jsonfile": "^5.0.0",
+    "@types/mysql": "^2.15.13",
     "@types/node": "^13.13.1",
     "@types/supertest": "^2.0.8",
     "find": "^0.3.0",

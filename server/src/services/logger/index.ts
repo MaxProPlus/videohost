@@ -20,7 +20,6 @@ const logger = createLogger({
  * For development, print to the console.
  */
 if (process.env.NODE_ENV === 'production') {
-
     const fileFormat = format.combine(
         format.timestamp(),
         format.json(),
@@ -38,7 +37,6 @@ if (process.env.NODE_ENV === 'production') {
     logger.add(infoTransport)
 
 } else {
-
     const errorStackFormat = format((info) => {
         if (info.stack) {
             // tslint:disable-next-line:no-console

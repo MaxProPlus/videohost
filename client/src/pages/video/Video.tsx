@@ -68,7 +68,6 @@ export default class VideoPage extends React.Component<any, IState> {
         listPromise.push(this.videoApi.getById(this.state.id).then(r => {
             if (r.status !== 'OK') {
                 history.push('/')
-                console.error(r.errorMessage)
                 return
             }
             this.setState({
@@ -77,7 +76,6 @@ export default class VideoPage extends React.Component<any, IState> {
         }))
         listPromise.push(this.videoApi.getRating().then(r => {
             if (r.status !== 'OK') {
-                console.error(r.errorMessage)
                 return
             }
             this.setState({
@@ -86,7 +84,6 @@ export default class VideoPage extends React.Component<any, IState> {
         }))
         listPromise.push(this.commentApi.getComments(this.state.id).then(r => {
             if (r.status !== 'OK') {
-                console.error(r.errorMessage)
                 return
             }
             this.setState({
@@ -106,7 +103,6 @@ export default class VideoPage extends React.Component<any, IState> {
         })
         this.commentApi.getComments(this.state.id).then(r => {
             if (r.status !== 'OK') {
-                console.error(r.errorMessage)
                 return
             }
             this.setState({
@@ -138,15 +134,12 @@ export default class VideoPage extends React.Component<any, IState> {
         })
     };
     handleCommentSend = (comment: Comment) => {
-        console.log(comment)
         this.setState({
             isLoaded: false,
         })
         this.commentApi.create(comment).then(r => {
-            console.log(r)
             this.updateComment()
         }, err => {
-            console.error(err)
             this.setState({
                 isLoaded: true,
             })
@@ -156,8 +149,6 @@ export default class VideoPage extends React.Component<any, IState> {
         this.setState({isLoaded: false})
         this.commentApi.remove(id_comment).then(r => {
             this.updateComment()
-        }, err => {
-            console.error(err)
         }).finally(() => {
             this.setState({isLoaded: true})
         })

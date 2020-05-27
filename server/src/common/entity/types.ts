@@ -53,10 +53,3 @@ export class VideoUpload extends Video {
     fileVideo!: UploadedFile
     filePreview!: UploadedFile
 }
-
-export type ResponseAnswer = {
-    status: string,
-    errorMessage: string,
-    results: any[]
-
-}

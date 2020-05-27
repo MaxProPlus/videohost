@@ -7,7 +7,7 @@ import express, {NextFunction, Request, Response} from 'express'
 import 'express-async-errors'
 
 import BaseRouter from './routes'
-import logger from './shared/Logger'
+import logger from './services/logger'
 
 // Init express
 const app = express()

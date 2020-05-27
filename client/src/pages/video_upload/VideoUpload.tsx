@@ -1,11 +1,10 @@
 import React, {Component} from "react"
-import './VideoUpload.scss'
 import history from "../../utils/history"
 import VideoApi from "../../api/videoApi"
 import Spinner from "../../components/spinner/Spinner"
-// import {Video} from "../../../../server/src/common/entity/types";
 import Validator from "../../../../server/src/common/validator"
 import InputField from "../../components/form/input-field/InputField";
+import AlertDanger from "../../components/alert-danger/AlertDanger";
 
 class VideoUpload extends Component<{}, any> {
     private videoApi = new VideoApi();
@@ -73,7 +72,6 @@ class VideoUpload extends Component<{}, any> {
         formData.append('file_video', this.state.fileVideo)
         formData.append('file_preview', this.state.filePreview)
         this.videoApi.create(formData).then(r => {
-            console.log(r)
             if (r.status !== 'OK') {
                 this.setState({
                     errorMessage: r.errorMessage
@@ -94,7 +92,7 @@ class VideoUpload extends Component<{}, any> {
                 {!this.state.isLoaded && <Spinner/>}
                 <form onSubmit={this.handleSubmit} className="form-sign">
                     <div className="title">Загрузка видео</div>
-                    {this.state.errorMessage && <div className="alert alert-danger">{this.state.errorMessage}</div>}
+                    {this.state.errorMessage && <AlertDanger>{this.state.errorMessage}</AlertDanger>}
                     <InputField label="Название" type="text" value={this.state.title}
                                 id="title" onChange={this.handleChange}/>
                     <div className="form-group">

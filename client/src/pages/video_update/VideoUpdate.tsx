@@ -6,6 +6,7 @@ import Spinner from "components/spinner/Spinner"
 import Button from "components/button/Button"
 import Validator from "../../../../server/src/common/validator"
 import InputField from "../../components/form/input-field/InputField";
+import AlertDanger from "../../components/alert-danger/AlertDanger";
 
 type stateTypes = {
     id: string
@@ -49,10 +50,8 @@ class VideoUpdate extends Component<{}, stateTypes> {
     }
 
     updateData() {
-        console.log(this.state.id)
         this.videoApi.getById(this.state.id).then(r => {
             if (r.status !== 'OK') {
-                console.error(r.errorMessage_update)
                 return
             }
             this.setState({
@@ -126,7 +125,6 @@ class VideoUpdate extends Component<{}, stateTypes> {
 
     handleDelete = (e: any) => {
         e.preventDefault()
-        console.log(this.state.id)
         this.videoApi.delete(this.state.id).then(r => {
             if (r.status !== 'OK') {
                 this.setState({
@@ -148,8 +146,7 @@ class VideoUpdate extends Component<{}, stateTypes> {
                 {!this.state.isLoaded && <Spinner/>}
                 <form onSubmit={this.handleSubmit} className="form-sign">
                     <div className="title">Редактирование видео</div>
-                    {this.state.errorMessage_update &&
-                    <div className="alert alert-danger">{this.state.errorMessage_update}</div>}
+                    {this.state.errorMessage_update && <AlertDanger>{this.state.errorMessage_update}</AlertDanger>}
                     <InputField label="Название" type="text" value={this.state.title}
                                 id="title" onChange={this.handleChange}/>
                     <div className="form-group">
@@ -166,8 +163,7 @@ class VideoUpdate extends Component<{}, stateTypes> {
                     </div>
                 </form>
                 <form onSubmit={this.handleDelete} className="form-sign remove">
-                    {this.state.errorMessage_delete &&
-                    <div className="alert alert-danger">{this.state.errorMessage_delete}</div>}
+                    {this.state.errorMessage_delete && <AlertDanger>{this.state.errorMessage_delete}</AlertDanger>}
                     <div className="suggest">
                         Для удаления видео: <Button>Удалить</Button>
                     </div>

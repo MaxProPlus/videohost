@@ -54,6 +54,16 @@ img {
   max-width: 1190px;
 }
 
+.fc {
+  display: flex;
+  justify-content: center;
+}
+
+.fsb {
+  display: flex;
+  justify-content: space-between;
+}
+
 .form-sign {
   margin: 4rem auto 0;
   max-width: 430px;

@@ -1,4 +1,5 @@
 import {Comment} from '../../common/entity/types'
+import logger from '../../services/logger'
 
 class Mapper {
     private pool: any
@@ -8,69 +9,69 @@ class Mapper {
     }
 
     // Вставить комментарий
-    insert(comment: Comment) {
-        const sql = `
-            INSERT INTO comment (text, id_user, id_video)
-            VALUES (?, ?, ?)`
-        return this.pool.query(sql, [comment.text, comment.idUser, comment.idVideo]).then(([r]: any) => {
+    insert = (c: Comment) => {
+        const sql = `INSERT INTO comment (text, id_user, id_video)
+                     VALUES (?, ?, ?)`
+        return this.pool.query(sql, [c.text, c.idUser, c.idVideo]).then(([r]: any) => {
             return Promise.resolve(r.insertId)
-        }, () => {
-            return Promise.reject('Ошибка запроса')
+        }, (err: any) => {
+            logger.error('Ошибка запроса к бд: ', err)
+            return Promise.reject('Ошибка запроса к бд')
         })
     }
 
     // Получить комментарий по id
-    selectById(idComment: number): Promise<Comment> {
-        const sql = `
-            SELECT c.id         AS id,
-                   c.text       AS text,
-                   c.id_video   AS idVideo,
-                   c.id_user    AS idUser,
-                   p.nickname   AS authorNickname,
-                   p.url_avatar AS authorUrlAvatar
-            FROM comment c
-                     JOIN user p on p.id = c.id_user
-            WHERE c.id = ?`
-        return this.pool.query(sql, [idComment]).then(([r]: [Comment[]]) => {
+    selectById = (id: number): Promise<Comment> => {
+        const sql = `SELECT c.id,
+                            c.text,
+                            c.id_video   AS idVideo,
+                            c.id_user    AS idUser,
+                            p.nickname   AS authorNickname,
+                            p.url_avatar AS authorUrlAvatar
+                     FROM comment c
+                              JOIN user p on p.id = c.id_user
+                     WHERE c.id = ?`
+        return this.pool.query(sql, [id]).then(([r]: [Comment[]]) => {
             if (!r.length) {
                 return Promise.reject('Не найдено')
             }
             return Promise.resolve(r[0])
-        }, () => {
-            return Promise.reject('Ошибка запроса')
+        }, (err: any) => {
+            logger.error('Ошибка запроса к бд: ', err)
+            return Promise.reject('Ошибка запроса к бд')
         })
     }
 
     // Выборка комментариев по id видео
-    selectByIdVideo(idVideo: number): Promise<Comment[]> {
-        const sql = `
-            SELECT c.id         AS id,
-                   c.text       AS text,
-                   c.id_video   AS idVideo,
-                   c.id_user    AS idUser,
-                   p.nickname   AS authorNickname,
-                   p.url_avatar AS authorUrlAvatar
-            FROM comment c
-                     JOIN user p on p.id = c.id_user
-            WHERE c.id_video = ?
-            ORDER BY c.id DESC`
-        return this.pool.query(sql, [idVideo]).then(([r]: [Comment[]]) => {
+    selectByIdVideo = (id: number): Promise<Comment[]> => {
+        const sql = `SELECT c.id,
+                            c.text,
+                            c.id_video   AS idVideo,
+                            c.id_user    AS idUser,
+                            p.nickname   AS authorNickname,
+                            p.url_avatar AS authorUrlAvatar
+                     FROM comment c
+                              JOIN user p on p.id = c.id_user
+                     WHERE c.id_video = ?
+                     ORDER BY c.id DESC`
+        return this.pool.query(sql, [id]).then(([r]: [Comment[]]) => {
             return Promise.resolve(r)
-        }, () => {
-            return Promise.reject('Ошибка запроса')
+        }, (err: any) => {
+            logger.error('Ошибка запроса к бд: ', err)
+            return Promise.reject('Ошибка запроса к бд')
         })
     }
 
     // Удаление комментария по id
-    remove(idComment: number) {
-        const sql = `
-            DELETE
-            FROM comment
-            WHERE id = ?`
-        return this.pool.query(sql, [idComment]).then(() => {
+    remove = (id: number) => {
+        const sql = `DELETE
+                     FROM comment
+                     WHERE id = ?`
+        return this.pool.query(sql, [id]).then(() => {
             return Promise.resolve()
-        }, () => {
-            return Promise.reject('Ошибка запроса')
+        }, (err: any) => {
+            logger.error('Ошибка запроса к бд: ', err)
+            return Promise.reject('Ошибка запроса к бд')
         })
     }
 }
