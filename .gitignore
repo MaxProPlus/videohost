@@ -20,5 +20,6 @@
 /server/upload/preview/*
 !/server/upload/preview/standart.png
 /server/upload/video/*
+!/server/upload/video/.gitkeep
 
 
