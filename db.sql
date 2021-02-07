@@ -1,4 +1,5 @@
-create or replace schema videohost collate utf8mb4_unicode_ci;
+drop schema if exists videohost;
+create schema videohost collate utf8mb4_unicode_ci;
 use videohost;
 
 create or replace table user
@@ -77,6 +78,7 @@ create or replace table estimate
             on update cascade on delete cascade
 );
 
+DELIMITER //
 DROP TRIGGER IF EXISTS estimate_create;
 CREATE TRIGGER estimate_create
     AFTER INSERT
@@ -89,9 +91,9 @@ BEGIN
         else begin
         end;
         end case;
-end;
+end //
 
-DROP TRIGGER IF EXISTS estimate_update;
+DROP TRIGGER IF EXISTS estimate_update //
 CREATE TRIGGER estimate_update
     BEFORE UPDATE
     ON estimate
@@ -128,6 +130,5 @@ BEGIN
                 end case; else begin
     end;
         end case;
-end;
-
-
+end //
+DELIMITER ;
